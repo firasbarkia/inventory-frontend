@@ -1,2 +1,26 @@
-<p>dashboard works!</p>
-<p>Welcome, {{ username }}!</p>
+<div class="dashboard-container">
+  <h2>Welcome, {{ username }}!</h2>
+
+  <div class="dashboard-buttons">
+    <a routerLink="/items" class="dashboard-button">
+      <i class="fas fa-box"></i>
+      <span>Items</span>
+    </a>
+    <a routerLink="/users" class="dashboard-button">
+      <i class="fas fa-users"></i>
+      <span>Users</span>
+    </a>
+    <a routerLink="/suppliers" class="dashboard-button">
+      <i class="fas fa-truck"></i>
+      <span>Suppliers</span>
+    </a>
+    <a routerLink="/notifications" class="dashboard-button">
+      <i class="fas fa-bell"></i>
+      <span>Notifications</span>
+    </a>
+    <a routerLink="/requests" class="dashboard-button">
+      <i class="fas fa-file-alt"></i>
+      <span>Requests</span>
+    </a>
+  </div>
+</div>

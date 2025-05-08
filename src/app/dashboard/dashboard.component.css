@@ -1,0 +1,64 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px; /* Increased padding */
+  font-family: 'Roboto', sans-serif; /* Using a more modern font */
+  background-color: #eef2f7; /* Light background color */
+  min-height: calc(100vh - 64px); /* Adjust based on header height if any */
+}
+
+h2 {
+  color: #2c3e50; /* Darker, more professional heading color */
+  margin-bottom: 40px; /* Increased margin */
+  text-align: center;
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.dashboard-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted min width */
+  gap: 25px; /* Increased gap */
+  width: 100%;
+  max-width: 960px; /* Increased max width */
+  padding: 20px;
+  background-color: #ffffff; /* White background for the buttons container */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+}
+
+.dashboard-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px; /* Increased padding */
+  background-color: #f8f9fa; /* Light background for buttons */
+  color: #343a40; /* Dark text color */
+  text-decoration: none;
+  border-radius: 10px; /* Slightly more rounded corners */
+  transition: all 0.3s ease-in-out; /* Smooth transition for all changes */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08); /* Subtle button shadow */
+  text-align: center;
+  border: 1px solid #dee2e6; /* Add a subtle border */
+}
+
+.dashboard-button:hover {
+  transform: translateY(-8px); /* More pronounced lift effect */
+  background-color: #e9ecef; /* Lighter background on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  border-color: #ced4da;
+}
+
+.dashboard-button i {
+  font-size: 3em; /* Larger icons */
+  margin-bottom: 15px; /* Increased margin */
+  color: #007bff; /* Primary color for icons */
+}
+
+.dashboard-button span {
+  font-size: 1.2em; /* Slightly larger text */
+  font-weight: 600; /* Bolder text */
+  color: #495057; /* Slightly darker text color */
+}

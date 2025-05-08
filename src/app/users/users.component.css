@@ -1,0 +1,109 @@
+.users-container {
+  padding: 30px;
+  background-color: #f8f9fa; /* Light background for elegance */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #343a40; /* Darker heading color */
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #e9ecef; /* Slightly darker background for filter area */
+  border-radius: 5px;
+}
+
+.mat-form-field {
+  width: 300px;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate; /* Use separate for rounded corners */
+  border-spacing: 0; /* Remove space between borders */
+  margin-top: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for the table */
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Hide overflowing content due to rounded corners */
+}
+
+th, td {
+  padding: 15px 20px; /* Increased padding */
+  text-align: left;
+  border-bottom: 1px solid #dee2e6; /* Lighter border color */
+}
+
+table th.mat-header-cell {
+  background-color: #343a40; /* Darker background for header */
+  color: white; /* White text for header */
+  font-weight: bold;
+  text-transform: uppercase; /* Uppercase header text */
+  letter-spacing: 0.5px;
+}
+
+/* Style for the first and last header cells for rounded corners */
+th:first-child {
+  border-top-left-radius: 8px;
+}
+
+th:last-child {
+  border-top-right-radius: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* Slightly different row color */
+}
+
+tr:hover {
+  background-color: #e9ecef; /* Highlight row on hover */
+  transition: background-color 0.3s ease;
+}
+
+.mat-column-actions {
+  width: 180px; /* Increased width for actions */
+  text-align: center; /* Center actions */
+}
+
+.mat-column-actions .mat-icon {
+  font-size: 20px; /* Slightly larger icon size */
+  height: 20px;
+  width: 20px;
+}
+
+.mat-column-actions button {
+  padding: 5px; /* Adjust padding */
+  min-width: unset;
+  margin: 0 5px; /* Add space between buttons */
+  border-radius: 50%; /* Make buttons round */
+  transition: background-color 0.3s ease;
+}
+
+.mat-column-actions button:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Subtle hover effect */
+}
+
+.mat-column-roles {
+  word-break: break-word; /* Use break-word for better handling of long roles */
+  max-width: 150px; /* Optional: set a max-width for roles column */
+}
+
+.mat-paginator {
+  margin-top: 20px;
+  border-top: 1px solid #dee2e6;
+  padding: 10px 0;
+  background-color: #ffffff; /* White background for paginator */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.mat-raised-button {
+  padding: 0 20px; /* Adjust button padding */
+}

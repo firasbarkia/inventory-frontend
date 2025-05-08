@@ -1,0 +1,25 @@
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Edit Supplier' : 'Add Supplier' }}</h2>
+  <form (ngSubmit)="saveSupplier()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="currentSupplier.name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="contactInfo">Contact Info:</label>
+      <input type="text" id="contactInfo" [(ngModel)]="currentSupplier.contactInfo" name="contactInfo" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="currentSupplier.email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label for="userId">User ID:</label>
+      <input type="number" id="userId" [(ngModel)]="currentSupplier.userId" name="userId" required>
+    </div>
+    <div class="form-actions">
+      <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} Supplier</button>
+      <button type="button" (click)="closeForm()">Cancel</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,47 @@
+/* Add styles here if needed */
+.button-row {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+}
+
+.mat-elevation-z8 {
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  border-radius: 8px; /* Rounded corners for the table container */
+  overflow: hidden; /* Ensure shadow and border-radius apply correctly */
+}
+
+mat-card {
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow to card */
+  border-radius: 8px; /* Rounded corners for the card */
+}
+
+mat-card-title {
+  color: #3f51b5; /* Use primary color for title */
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Style for table headers */
+.mat-table th {
+  background-color: #f5f5f5; /* Light grey background for headers */
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Style for table rows */
+.mat-table tr:nth-child(even) {
+  background-color: #fafafa; /* Alternate row color */
+}
+
+.mat-table td {
+  padding: 12px 16px;
+}
+
+/* Style for action buttons */
+.mat-icon-button {
+  margin: 0 4px;
+}
