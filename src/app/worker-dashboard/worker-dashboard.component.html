@@ -1,20 +1,70 @@
 <div class="dashboard-container">
-  <h1>Worker Dashboard</h1>
-  <p>Welcome, {{ username }}!</p>
-  <p>Your role is: {{ role }}</p>
+  <div class="dashboard-header">
+    <h1>Worker Dashboard</h1>
+    <div class="user-welcome">
+      <p>Welcome, <strong>{{ username }}</strong>!</p>
+      <span class="role-badge worker">{{ role }}</span>
+    </div>
+  </div>
 
-  <h2>Notifications:</h2>
-  <ul>
-    <li *ngFor="let notification of notifications">
-      {{ notification.message }}
-    </li>
-  </ul>
+  <div class="dashboard-content">
+    <!-- Notifications Section -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Notifications</h2>
+      </div>
+      <div class="card-body">
+        <app-notification
+          notificationType="worker"
+          [showActions]="false"
+          (notificationUpdated)="loadWorkerNotifications()">
+        </app-notification>
+      </div>
+    </div>
 
-  <h2>Requests:</h2>
-  <ul>
-    <li *ngFor="let request of requests">
-      Item: {{ request.item.name }} (Quantity: {{ request.quantity }}, Status: {{ request.status }})
-      <button (click)="updateRequestStatus(request.id)">Accept Request</button>
-    </li>
-  </ul>
+    <!-- Requests Section -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Pending Requests</h2>
+      </div>
+      <div class="card-body">
+        <div *ngIf="requests.length === 0" class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>No pending requests available.</p>
+        </div>
+
+        <ul *ngIf="requests.length > 0" class="request-list">
+          <li *ngFor="let request of requests" class="request-item" [ngClass]="{'pending': request.status === 'PENDING'}">
+            <div class="request-info">
+              <div class="request-header">
+                <span class="request-title">{{ request.item.name }}</span>
+                <span class="request-status" [ngClass]="{
+                  'status-pending': request.status === 'PENDING',
+                  'status-approved': request.status === 'APPROVED',
+                  'status-rejected': request.status === 'REJECTED'
+                }">{{ request.status }}</span>
+              </div>
+              <div class="request-details">
+                <div class="request-detail">
+                  <span class="detail-label">Quantity:</span>
+                  <span class="detail-value">{{ request.quantity }}</span>
+                </div>
+                <div class="request-detail" *ngIf="request.requestedBy">
+                  <span class="detail-label">Requested by:</span>
+                  <span class="detail-value">{{ request.requestedBy }}</span>
+                </div>
+                <div class="request-detail" *ngIf="request.createdAt">
+                  <span class="detail-label">Date:</span>
+                  <span class="detail-value">{{ request.createdAt | date:'medium' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="request-actions" *ngIf="request.status === 'PENDING'">
+              <button class="btn-success" (click)="updateRequestStatus(request.id)">Accept Request</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

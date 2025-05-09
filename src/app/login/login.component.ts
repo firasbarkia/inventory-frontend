@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, HttpClientModule],
+  imports: [FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -24,19 +24,40 @@ export class LoginComponent {
     };
 
     this.http.post('http://localhost:8080/api/auth/login', loginData)
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: any) => {
           console.log('Login successful', response);
+
+          // Check if account is pending
+          if (response.accountStatus === 'PENDING') {
+            alert('Your account is pending approval by an administrator. Please try again later.');
+            return;
+          }
+
           localStorage.setItem('token', response.token);
           const decodedToken: any = jwtDecode(response.token);
           localStorage.setItem('username', this.username);
           localStorage.setItem('role', decodedToken.roles[0]);
-          this.router.navigate(['/dashboard']);
+
+          // Navigate based on role
+          if (decodedToken.roles.includes('ADMIN')) {
+            this.router.navigate(['/dashboard']);
+          } else if (decodedToken.roles.includes('WORKER')) {
+            this.router.navigate(['/worker-dashboard']);
+          } else if (decodedToken.roles.includes('TEACHER')) {
+            this.router.navigate(['/teacher-dashboard']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         },
-        error => {
+        error: (error) => {
           console.error('Login failed', error);
-          alert('Login failed');
+          if (error.status === 401) {
+            alert('Invalid username or password');
+          } else {
+            alert('Login failed: ' + (error.error || 'Unknown error'));
+          }
         }
-      );
+      });
   }
 }

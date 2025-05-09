@@ -1,62 +1,158 @@
 <div class="dashboard-container">
-  <h1>Admin Dashboard</h1>
-  <p>Welcome, {{ username }}!</p>
-  <p>Your role is: {{ role }}</p>
+  <div class="dashboard-header">
+    <h1>Admin Dashboard</h1>
+    <div class="user-welcome">
+      <p>Welcome, <strong>{{ username }}</strong>!</p>
+      <span class="role-badge admin">{{ role }}</span>
+    </div>
+  </div>
 
-  <div *ngIf="role === 'ADMIN'">
+  <div *ngIf="role === 'ADMIN'" class="dashboard-content">
+    <!-- User Management Section -->
+    <div class="card">
+      <div class="card-header">
+        <h2 id="user-management">User Management</h2>
+      </div>
+      <div class="card-body">
+        <div class="section">
+          <div class="section-header">
+            <h3>Pending Users</h3>
+          </div>
+          <div class="section-content">
+            <div *ngIf="pendingUsers.length === 0" class="empty-state">
+              No pending users to approve
+            </div>
+            <ul *ngIf="pendingUsers.length > 0">
+              <li *ngFor="let user of pendingUsers" class="list-item">
+                <div class="item-info">
+                  <span class="item-name">{{ user.username }}</span>
+                  <span class="item-detail">{{ user.email }}</span>
+                </div>
+                <div class="item-actions">
+                  <button class="btn-success" (click)="approveUser(user.id)">Approve</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-    <h2 id="user-management">User Management</h2>
+        <div class="section">
+          <div class="section-header d-flex justify-content-between align-items-center">
+            <h3>Users</h3>
+            <button class="btn-primary" routerLink="/add-user">Add User</button>
+          </div>
+          <div class="section-content">
+            <div *ngIf="users.length === 0" class="empty-state">
+              No users found
+            </div>
+            <ul *ngIf="users.length > 0">
+              <li *ngFor="let user of users" class="list-item">
+                <div class="item-info">
+                  <span class="item-name">{{ user.username }}</span>
+                  <div class="item-details">
+                    <span class="item-detail">{{ user.email }}</span>
+                    <span class="role-chips">
+                      <span *ngFor="let role of user.roles" class="role-chip">{{ role }}</span>
+                    </span>
+                  </div>
+                </div>
+                <div class="item-actions">
+                  <select [(ngModel)]="selectedRole[user.id]" class="role-select">
+                    <option selected value="USER">User</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="SUPPLIER">Supplier</option>
+                    <option value="WORKER">Worker</option>
+                    <option value="TEACHER">Teacher</option>
+                  </select>
+                  <button (click)="addRole(user.id, selectedRole[user.id])">Add Role</button>
+                  <button routerLink="/edit-user/{{user.id}}">Edit</button>
+                  <button class="btn-danger" (click)="deleteUser(user.id)">Delete</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <h2>Pending Users:</h2>
-    <ul>
-      <li *ngFor="let user of pendingUsers">
-        {{ user.username }}
-        <button (click)="approveUser(user.id)">Approve</button>
-      </li>
-    </ul>
+    <!-- Notifications Section -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Supplier Notifications</h2>
+      </div>
+      <div class="card-body">
+        <app-notification
+          notificationType="supplier"
+          [showActions]="true"
+          (notificationUpdated)="loadSupplierNotifications()">
+        </app-notification>
+      </div>
+    </div>
 
-    <h2>Users:</h2>
-    <button routerLink="/add-user">Add User</button>
-    <ul>
-      <li *ngFor="let user of users">
-        {{ user.username }} ({{ user.roles }}) - {{user.email}}
-        <select [(ngModel)]="selectedRole[user.id]">
-          <option selected value="USER">User</option>
-          <option value="ADMIN">Admin</option>
-          <option value="SUPPLIER">Supplier</option>
-          <option value="WORKER">Worker</option>
-          <option value="TEACHER">Teacher</option>
-        </select>
-        <button (click)="addRole(user.id, selectedRole[user.id])">Add Role</button>
-        <button routerLink="/edit-user/{{user.id}}">Update</button>
-        <button (click)="deleteUser(user.id)">Delete</button>
-      </li>
-    </ul>
+    <!-- Supplier Management Section -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>Supplier Management</h2>
+        <button class="btn-primary" routerLink="/add-supplier">Add Supplier</button>
+      </div>
+      <div class="card-body">
+        <div *ngIf="suppliers.length === 0" class="empty-state">
+          No suppliers found
+        </div>
+        <ul *ngIf="suppliers.length > 0">
+          <li *ngFor="let supplier of suppliers" class="list-item">
+            <div class="item-info">
+              <span class="item-name">{{ supplier.name }}</span>
+              <span class="item-detail" *ngIf="supplier.email">{{ supplier.email }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-    <h2>Supplier Notifications:</h2>
-    <ul>
-      <li *ngFor="let notification of supplierNotifications">
-        {{ notification.message }}
-        <button (click)="approveNotification(notification.id)">Approve</button>
-      </li>
-    </ul>
-
-    <h2>Supplier Management</h2>
-    <button routerLink="/add-supplier">Add Supplier</button>
-
-    <h2 id="item-management">Item Management</h2>
-    <h2>Items:</h2>
-    <select [(ngModel)]="selectedSupplier">
-      <option value="0">Select Supplier</option>
-      <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</option>
-    </select>
-    <button [routerLink]="['/add-item']" [queryParams]="{supplierId: selectedSupplier}" [disabled]="selectedSupplier == 0">Add Item</button>
-    <ul>
-      <li *ngFor="let item of items">
-        {{ item.name }} ({{ item.description }}) - Quantity: {{item.quantity}}, Min Stock: {{item.minStock}}
-        <button routerLink="/edit-item/{{item.id}}">Update</button>
-        <button (click)="deleteItem(item.id)">Delete</button>
-      </li>
-    </ul>
+    <!-- Item Management Section -->
+    <div class="card">
+      <div class="card-header">
+        <h2 id="item-management">Item Management</h2>
+      </div>
+      <div class="card-body">
+        <div class="section-header d-flex justify-content-between align-items-center">
+          <div class="supplier-selector">
+            <select [(ngModel)]="selectedSupplier" class="supplier-select">
+              <option value="0">Select Supplier</option>
+              <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</option>
+            </select>
+            <button class="btn-primary" [routerLink]="['/add-item']" [queryParams]="{supplierId: selectedSupplier}" [disabled]="selectedSupplier == 0">Add Item</button>
+          </div>
+        </div>
+        <div class="section-content">
+          <div *ngIf="items.length === 0" class="empty-state">
+            No items found
+          </div>
+          <ul *ngIf="items.length > 0">
+            <li *ngFor="let item of items" class="list-item">
+              <div class="item-info">
+                <span class="item-name">{{ item.name }}</span>
+                <div class="item-details">
+                  <span class="item-detail">{{ item.description }}</span>
+                  <div class="item-stats">
+                    <span class="item-stat" [class.low-stock]="item.quantity < item.minStockLevel">
+                      Quantity: {{ item.quantity }}
+                    </span>
+                    <span class="item-stat">
+                      Min Stock: {{ item.minStockLevel }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button routerLink="/edit-item/{{item.id}}">Edit</button>
+                <button class="btn-danger" (click)="deleteItem(item.id)">Delete</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

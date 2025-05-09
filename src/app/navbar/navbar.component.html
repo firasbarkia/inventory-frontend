@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a routerLink="/">Inventory Management</a>
+    </div>
+    
+    <button class="navbar-toggle" (click)="toggleMenu()" aria-label="Toggle navigation">
+      <span class="navbar-toggle-icon"></span>
+    </button>
+    
+    <div class="navbar-menu" [class.is-active]="isMenuOpen">
+      <div class="navbar-start">
+        <!-- Show these links based on user role -->
+        <ng-container *ngIf="role === 'ADMIN'">
+          <a routerLink="/dashboard" routerLinkActive="active" class="navbar-item">Dashboard</a>
+        </ng-container>
+        
+        <ng-container *ngIf="role === 'TEACHER'">
+          <a routerLink="/teacher-dashboard" routerLinkActive="active" class="navbar-item">Dashboard</a>
+        </ng-container>
+        
+        <ng-container *ngIf="role === 'WORKER'">
+          <a routerLink="/worker-dashboard" routerLinkActive="active" class="navbar-item">Dashboard</a>
+        </ng-container>
+        
+        <ng-container *ngIf="role === 'SUPPLIER'">
+          <a routerLink="/supplier-dashboard" routerLinkActive="active" class="navbar-item">Dashboard</a>
+        </ng-container>
+      </div>
+      
+      <div class="navbar-end">
+        <ng-container *ngIf="username; else loginLinks">
+          <div class="navbar-item user-info">
+            <span class="username">{{ username }}</span>
+            <span class="role-badge">{{ role }}</span>
+          </div>
+          <a class="navbar-item logout-btn" (click)="logout()">Logout</a>
+        </ng-container>
+        
+        <ng-template #loginLinks>
+          <a routerLink="/login" routerLinkActive="active" class="navbar-item">Login</a>
+          <a routerLink="/register" routerLinkActive="active" class="navbar-item">Register</a>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nav>

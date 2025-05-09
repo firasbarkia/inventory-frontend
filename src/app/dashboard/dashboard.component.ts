@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { NotificationComponent } from '../notification/notification.component';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, NotificationComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -22,7 +24,11 @@ export class DashboardComponent implements OnInit {
   selectedSupplier: number = 0;
   supplierNotifications: any[] = [];
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.username = localStorage.getItem('username');
@@ -47,14 +53,14 @@ export class DashboardComponent implements OnInit {
           'Authorization': `Bearer ${token}`
         }
       })
-      .subscribe(
-        users => {
+      .subscribe({
+        next: (users) => {
           this.users = users;
         },
-        error => {
+        error: (error) => {
           console.error('Error fetching users', error);
         }
-      );
+      });
 
       // Fetch pending users
       this.http.get<any[]>('http://localhost:8080/api/admin/users/pending', {
@@ -62,14 +68,14 @@ export class DashboardComponent implements OnInit {
           'Authorization': `Bearer ${token}`
         }
       })
-      .subscribe(
-        pendingUsers => {
+      .subscribe({
+        next: (pendingUsers) => {
           this.pendingUsers = pendingUsers;
         },
-        error => {
+        error: (error) => {
           console.error('Error fetching pending users', error);
         }
-      );
+      });
 
        // Fetch all items
        this.http.get<any[]>('http://localhost:8080/api/items', {
@@ -77,14 +83,14 @@ export class DashboardComponent implements OnInit {
           'Authorization': `Bearer ${token}`
         }
       })
-      .subscribe(
-        items => {
+      .subscribe({
+        next: (items) => {
           this.items = items;
         },
-        error => {
+        error: (error) => {
           console.error('Error fetching items', error);
         }
-      );
+      });
 
       // Fetch all suppliers
       this.http.get<any[]>('http://localhost:8080/api/suppliers', {
@@ -92,36 +98,42 @@ export class DashboardComponent implements OnInit {
           'Authorization': `Bearer ${token}`
         }
       })
-      .subscribe(
-        suppliers => {
+      .subscribe({
+        next: (suppliers) => {
           this.suppliers = suppliers;
         },
-        error => {
+        error: (error) => {
           console.error('Error fetching suppliers', error);
         }
-      );
+      });
 
       // Fetch supplier notifications
-      this.http.get<any[]>('http://localhost:8080/api/notifications/supplier', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .subscribe(
-        supplierNotifications => {
-          this.supplierNotifications = supplierNotifications;
-        },
-        error => {
-          console.error('Error fetching supplier notifications', error);
-        }
-      );
+      this.loadSupplierNotifications();
     }
   }
 
   approveNotification(notificationId: number) {
-    const token = localStorage.getItem('token');
-    // TODO: Implement logic to approve the notification
-    console.log(`Approve notification with ID: ${notificationId}`);
+    this.notificationService.approveNotification(notificationId).subscribe({
+      next: () => {
+        console.log(`Notification ${notificationId} approved successfully`);
+        // Refresh notifications
+        this.loadSupplierNotifications();
+      },
+      error: (error) => {
+        console.error('Error approving notification', error);
+      }
+    });
+  }
+
+  loadSupplierNotifications() {
+    this.notificationService.getSupplierNotifications().subscribe({
+      next: (notifications) => {
+        this.supplierNotifications = notifications;
+      },
+      error: (error) => {
+        console.error('Error fetching supplier notifications', error);
+      }
+    });
   }
 
   deleteItem(itemId: number) {
@@ -131,16 +143,16 @@ export class DashboardComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       }
     })
-    .subscribe(
-      () => {
+    .subscribe({
+      next: () => {
         console.log('Item deleted successfully');
         // Refresh the list of items
         this.ngOnInit();
       },
-      error => {
+      error: (error) => {
         console.error('Error deleting item', error);
       }
-    );
+    });
   }
 
   addRole(userId: number, role: string) {
@@ -150,16 +162,16 @@ export class DashboardComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       }
     })
-    .subscribe(
-      () => {
+    .subscribe({
+      next: () => {
         console.log('Role added successfully');
         // Refresh the list of users
         this.ngOnInit();
       },
-      error => {
+      error: (error) => {
         console.error('Error adding role', error);
       }
-    );
+    });
   }
 
   approveUser(userId: number) {
@@ -169,16 +181,16 @@ export class DashboardComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       }
     })
-    .subscribe(
-      () => {
+    .subscribe({
+      next: () => {
         console.log('User approved successfully');
         // Refresh the list of users
         this.ngOnInit();
       },
-      error => {
+      error: (error) => {
         console.error('Error approving user', error);
       }
-    );
+    });
   }
 
   deleteUser(userId: number) {
@@ -188,15 +200,15 @@ export class DashboardComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       }
     })
-    .subscribe(
-      () => {
+    .subscribe({
+      next: () => {
         console.log('User deleted successfully');
         // Refresh the list of users
         this.ngOnInit();
       },
-      error => {
+      error: (error) => {
         console.error('Error deleting user', error);
       }
-    );
+    });
   }
 }

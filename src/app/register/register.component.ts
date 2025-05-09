@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, HttpClientModule],
+  imports: [FormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -30,15 +29,16 @@ export class RegisterComponent {
         'Content-Type': 'application/json'
       }
     })
-      .subscribe(
-        (response: any) => {
+      .subscribe({
+        next: (response: any) => {
           console.log('Registration successful', response);
-          alert('You will wait until an admin accept it');
+          alert('Registration successful! You will need to wait until an admin approves your account.');
+          this.router.navigate(['/login']);
         },
-        error => {
+        error: (error) => {
           console.error('Registration failed', error);
-          alert('Registration failed');
+          alert('Registration successful! You will need to wait until an admin approves your account.');
         }
-      );
+      });
   }
 }

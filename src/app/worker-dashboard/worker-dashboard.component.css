@@ -1,0 +1,176 @@
+.dashboard-container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.user-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  margin-top: 5px;
+}
+
+.role-badge.worker {
+  background-color: #5c6bc0;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 992px) {
+  .dashboard-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.empty-state p {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.request-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.request-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+@media (min-width: 768px) {
+  .request-item {
+    flex-direction: row;
+  }
+}
+
+.request-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.request-item.pending {
+  border-left: 4px solid var(--warning-color);
+}
+
+.request-info {
+  flex: 1;
+  padding: 15px;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.request-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.request-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.status-approved {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.status-rejected {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.request-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.request-detail {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #666;
+  width: 100px;
+}
+
+.detail-value {
+  color: #333;
+}
+
+.request-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-color: #f8f9fa;
+}
+
+@media (min-width: 768px) {
+  .request-actions {
+    padding: 0 15px;
+  }
+}
