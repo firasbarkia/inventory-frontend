@@ -1,2 +1,62 @@
-<p>dashboard works!</p>
-<p>Welcome, {{ username }}!</p>
+<div class="dashboard-container">
+  <h1>Admin Dashboard</h1>
+  <p>Welcome, {{ username }}!</p>
+  <p>Your role is: {{ role }}</p>
+
+  <div *ngIf="role === 'ADMIN'">
+
+    <h2 id="user-management">User Management</h2>
+
+    <h2>Pending Users:</h2>
+    <ul>
+      <li *ngFor="let user of pendingUsers">
+        {{ user.username }}
+        <button (click)="approveUser(user.id)">Approve</button>
+      </li>
+    </ul>
+
+    <h2>Users:</h2>
+    <button routerLink="/add-user">Add User</button>
+    <ul>
+      <li *ngFor="let user of users">
+        {{ user.username }} ({{ user.roles }}) - {{user.email}}
+        <select [(ngModel)]="selectedRole[user.id]">
+          <option selected value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+          <option value="SUPPLIER">Supplier</option>
+          <option value="WORKER">Worker</option>
+          <option value="TEACHER">Teacher</option>
+        </select>
+        <button (click)="addRole(user.id, selectedRole[user.id])">Add Role</button>
+        <button routerLink="/edit-user/{{user.id}}">Update</button>
+        <button (click)="deleteUser(user.id)">Delete</button>
+      </li>
+    </ul>
+
+    <h2>Supplier Notifications:</h2>
+    <ul>
+      <li *ngFor="let notification of supplierNotifications">
+        {{ notification.message }}
+        <button (click)="approveNotification(notification.id)">Approve</button>
+      </li>
+    </ul>
+
+    <h2>Supplier Management</h2>
+    <button routerLink="/add-supplier">Add Supplier</button>
+
+    <h2 id="item-management">Item Management</h2>
+    <h2>Items:</h2>
+    <select [(ngModel)]="selectedSupplier">
+      <option value="0">Select Supplier</option>
+      <option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</option>
+    </select>
+    <button [routerLink]="['/add-item']" [queryParams]="{supplierId: selectedSupplier}" [disabled]="selectedSupplier == 0">Add Item</button>
+    <ul>
+      <li *ngFor="let item of items">
+        {{ item.name }} ({{ item.description }}) - Quantity: {{item.quantity}}, Min Stock: {{item.minStock}}
+        <button routerLink="/edit-item/{{item.id}}">Update</button>
+        <button (click)="deleteItem(item.id)">Delete</button>
+      </li>
+    </ul>
+  </div>
+</div>

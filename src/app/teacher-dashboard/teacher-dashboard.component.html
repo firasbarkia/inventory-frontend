@@ -1,0 +1,22 @@
+<div class="dashboard-container">
+  <h1>Teacher Dashboard</h1>
+  <p>Welcome, {{ username }}!</p>
+  <p>Your role is: {{ role }}</p>
+
+  <h2>Items:</h2>
+  <ul>
+    <li *ngFor="let item of items">
+      {{ item.name }} ({{ item.description }}) - Quantity: {{item.quantity}}
+      <input type="number" [(ngModel)]="requestQuantities[item.id]" min="1">
+      <button (click)="createRequest(item.id)">Request Item</button>
+    </li>
+  </ul>
+
+  <h2>Requests:</h2>
+  <ul>
+    <li *ngFor="let request of requests">
+      <button (click)="deleteRequest(request.id)">Delete Request</button>
+      Item: <span *ngIf="request.item">{{ request.item.name }}</span> (Quantity: {{ request.quantity }}, Status: {{ request.status }})
+    </li>
+  </ul>
+</div>

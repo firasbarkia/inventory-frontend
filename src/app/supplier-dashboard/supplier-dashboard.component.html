@@ -1,0 +1,19 @@
+<div class="dashboard-container">
+  <h1>Supplier Dashboard</h1>
+  <p>Welcome, {{ username }}!</p>
+  <p>Your role is: {{ role }}</p>
+
+  <h2>Notifications:</h2>
+  <ul>
+    <li *ngFor="let notification of notifications">
+      {{ notification.message }}
+    </li>
+  </ul>
+
+  <h2>Items:</h2>
+  <ul>
+    <li *ngFor="let item of items">
+      {{ item.name }} ({{ item.description }}) - Quantity: {{item.quantity}}, Min Stock: {{item.minStock}}
+    </li>
+  </ul>
+</div>

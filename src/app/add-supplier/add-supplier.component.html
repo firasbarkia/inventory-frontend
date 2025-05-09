@@ -1,0 +1,15 @@
+<div class="container">
+  <h2>Add Supplier</h2>
+  <form (ngSubmit)="addSupplier()">
+    <div class="form-group">
+      <input type="text" id="name" name="name" [(ngModel)]="name" placeholder="Name" required>
+    </div>
+    <div class="form-group">
+      <input type="email" id="email" name="email" [(ngModel)]="email" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="phone" name="phone" [(ngModel)]="phone" placeholder="Phone" required>
+    </div>
+    <button type="submit">Add Supplier</button>
+  </form>
+</div>

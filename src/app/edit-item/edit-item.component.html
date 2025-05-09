@@ -1,0 +1,28 @@
+<p>edit-item works!</p>
+
+<div class="container">
+  <h2>Edit Item</h2>
+  <form (ngSubmit)="updateItem()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" class="form-control" id="description" [(ngModel)]="description" name="description">
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" class="form-control" id="price" [(ngModel)]="price" name="price">
+    </div>
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input type="number" class="form-control" id="quantity" [(ngModel)]="quantity" name="quantity">
+    </div>
+    <div class="form-group">
+      <label for="minStockLevel">Minimum Stock Level:</label>
+      <input type="number" class="form-control" id="minStockLevel" [(ngModel)]="minStockLevel" name="minStockLevel">
+    </div>
+    <button type="submit" class="btn btn-primary">Update Item</button>
+  </form>
+</div>

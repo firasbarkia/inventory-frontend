@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterComponent {
   email = '';
   password = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   register() {
     const registrationData = {
@@ -23,9 +25,13 @@ export class RegisterComponent {
       password: this.password
     };
 
-    this.http.post<any>('http://localhost:8080/api/auth/register', registrationData)
+    this.http.post('http://localhost:8080/api/auth/register', registrationData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .subscribe(
-        response => {
+        (response: any) => {
           console.log('Registration successful', response);
           alert('You will wait until an admin accept it');
         },

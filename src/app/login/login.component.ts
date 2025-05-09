@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -22,13 +23,14 @@ export class LoginComponent {
       password: this.password
     };
 
-    this.http.post('http://localhost:8080/api/auth/login', loginData, { responseType: 'text' })
+    this.http.post('http://localhost:8080/api/auth/login', loginData)
       .subscribe(
         (response: any) => {
           console.log('Login successful', response);
-          localStorage.setItem('token', response);
-          // Assuming the backend returns the username and roles in the response
+          localStorage.setItem('token', response.token);
+          const decodedToken: any = jwtDecode(response.token);
           localStorage.setItem('username', this.username);
+          localStorage.setItem('role', decodedToken.roles[0]);
           this.router.navigate(['/dashboard']);
         },
         error => {
